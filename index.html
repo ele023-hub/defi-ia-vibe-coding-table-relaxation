@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Table de relaxation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    /* ==========================================================
+       BASE
+       ========================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 100vh;
+      background: #000;
+      font-family: system-ui, sans-serif;
+      overflow: hidden;
+    }
+
+    main {
+      height: 100%;
+      max-width: calc(100% - 400px);
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* ==========================================================
+       TABLE MUSICALE — NIVEAU 0
+       ========================================================== */
+    .table {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        #0672B4,
+        #0087D7,
+        #2FB0FD
+      );
+      overflow: hidden;
+    }
+
+    /* ==========================================================
+       OVERLAY — NIVEAU 1
+       Opacités très proches : 13 % / 12 %
+       ========================================================== */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          rgba(1,18,30,0.13) 0px,
+          rgba(1,18,30,0.13) 30px,
+          rgba(1,18,30,0.12) 30px,
+          rgba(1,18,30,0.12) 80px
+        ),
+        repeating-linear-gradient(
+          45deg,
+          rgba(1,18,30,0.13) 0px,
+          rgba(1,18,30,0.13) 47px,
+          rgba(1,18,30,0.12) 47px,
+          rgba(1,18,30,0.12) 120px
+        );
+      background-size: 200% 200%;
+      animation: bandsMove 20s cubic-bezier(.2,.65,.25,1) infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes bandsMove {
+      from { background-position: 0% 100%; }
+      to   { background-position: 100% 0%; }
+    }
+
+    /* ==========================================================
+       CERCLES — NIVEAU 2
+       ========================================================== */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.75);
+      transform: translate(-50%, -50%);
+      animation: circleAnim 3s ease-in-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes circleAnim {
+      from {
+        width: 5px;
+        height: 5px;
+        opacity: 0.75;
+      }
+      to {
+        width: 250px;
+        height: 250px;
+        opacity: 0.2;
+      }
+    }
+
+    /* ==========================================================
+       PANNEAU — NIVEAU 3
+       ========================================================== */
+    aside {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: calc(100% / 6);
+      height: 100%;
+      background: rgba(1,66,113,0.8);
+      padding: 25px 15px;
+      z-index: 3;
+    }
+
+    .panel-group {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .panel h2 {
+      color: #0087D7;
+      text-transform: uppercase;
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+
+    .labels {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .label {
+      padding: 5px;
+      border: 1px solid rgba(196,233,255,0.75);
+      border-radius: 10px;
+      background: rgba(196,233,255,0.13);
+      color: #C4E9FF;
+      cursor: pointer;
+      user-select: none;
+      font-size: 0.9rem;
+    }
+
+    .label:hover {
+      background: rgba(196,233,255,0.25);
+      color: #fff;
+    }
+
+    .label.active {
+      background: rgba(196,233,255,0.75);
+      border-color: rgba(196,233,255,0.9);
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      main { max-width: 100%; }
+      aside {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <section class="table" id="table">
+      <div class="overlay"></div>
+    </section>
+
+    <aside>
+      <div class="panel-group">
+
+        <div class="panel" data-type="sound">
+          <h2>Son</h2>
+          <div class="labels">
+            <div class="label active">Harpe</div>
+            <div class="label">Rhodes</div>
+            <div class="label">Sinusoïdale</div>
+            <div class="label">Cloche</div>
+            <div class="label">Flûte</div>
+            <div class="label">Bol tibétain</div>
+          </div>
+        </div>
+
+        <div class="panel" data-type="tonic">
+          <h2>Tonique</h2>
+          <div class="labels">
+            <div class="label active">C</div>
+            <div class="label">C#</div>
+            <div class="label">D</div>
+            <div class="label">D#</div>
+            <div class="label">E</div>
+            <div class="label">F</div>
+            <div class="label">F#</div>
+            <div class="label">G</div>
+            <div class="label">G#</div>
+            <div class="label">A</div>
+            <div class="label">A#</div>
+            <div class="label">B</div>
+          </div>
+        </div>
+
+        <div class="panel" data-type="scale">
+          <h2>Gamme</h2>
+          <div class="labels">
+            <div class="label active">Majeure</div>
+            <div class="label">Mineure</div>
+            <div class="label">Dorienne</div>
+            <div class="label">Penta. min</div>
+            <div class="label">Penta. maj</div>
+            <div class="label">Lydienne</div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    /* ==========================================================
+       LABELS
+       ========================================================== */
+    document.querySelectorAll('.panel').forEach(panel => {
+      panel.addEventListener('click', e => {
+        if (!e.target.classList.contains('label')) return;
+        panel.querySelectorAll('.label').forEach(l => l.classList.remove('active'));
+        e.target.classList.add('active');
+      });
+    });
+
+    /* ==========================================================
+       AUDIO — PLUS LISIBLE À L’OREILLE
+       ========================================================== */
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioContext();
+
+    const baseFreq = {
+      C: 261.63, 'C#': 277.18, D: 293.66, 'D#': 311.13,
+      E: 329.63, F: 349.23, 'F#': 369.99, G: 392,
+      'G#': 415.3, A: 440, 'A#': 466.16, B: 493.88
+    };
+
+    const scales = {
+      'Majeure': [0,2,4,5,7,9,11],
+      'Mineure': [0,2,3,5,7,8,10],
+      'Dorienne': [0,2,3,5,7,9,10],
+      'Penta. min': [0,3,5,7,10],
+      'Penta. maj': [0,2,4,7,9],
+      'Lydienne': [0,2,4,6,7,9,11]
+    };
+
+    function active(type) {
+      return document.querySelector(`[data-type="${type}"] .label.active`).textContent;
+    }
+
+    function playSound() {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
+
+      const tonic = active('tonic');
+      const scale = scales[active('scale')];
+      const sound = active('sound');
+
+      const interval = scale[Math.floor(Math.random() * scale.length)];
+      const octave = Math.random() > 0.5 ? 1 : 2;
+
+      osc.frequency.value =
+        baseFreq[tonic] * Math.pow(2, octave + interval / 12);
+
+      /* ===== SIGNATURE SONORE CLAIRE ===== */
+      if (sound === 'Harpe') {
+        osc.type = 'triangle';
+        filter.type = 'lowpass';
+        filter.frequency.value = 1200;
+        gain.gain.setValueAtTime(0, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.35, audioCtx.currentTime + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.0008, audioCtx.currentTime + 1.2);
+      }
+
+      else if (sound === 'Rhodes') {
+        osc.type = 'sine';
+        filter.type = 'lowpass';
+        filter.frequency.value = 700;
+        gain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 0.25);
+        gain.gain.exponentialRampToValueAtTime(0.0008, audioCtx.currentTime + 2.2);
+      }
+
+      else if (sound === 'Cloche') {
+        osc.type = 'square';
+        filter.type = 'bandpass';
+        filter.frequency.value = 2000;
+        gain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0003, audioCtx.currentTime + 3.5);
+      }
+
+      else if (sound === 'Flûte') {
+        osc.type = 'sine';
+        filter.type = 'highpass';
+        filter.frequency.value = 500;
+        gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.4);
+        gain.gain.linearRampToValueAtTime(0.0008, audioCtx.currentTime + 2.8);
+      }
+
+      else if (sound === 'Bol tibétain') {
+        osc.type = 'triangle';
+        filter.type = 'bandpass';
+        filter.frequency.value = 500;
+        gain.gain.linearRampToValueAtTime(0.45, audioCtx.currentTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 4.5);
+      }
+
+      else { /* Sinusoïdale */
+        osc.type = 'sine';
+        filter.type = 'lowpass';
+        filter.frequency.value = 2500;
+        gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.0008, audioCtx.currentTime + 1.5);
+      }
+
+      osc.connect(filter).connect(gain).connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 5);
+    }
+
+    /* ==========================================================
+       INTERACTION
+       ========================================================== */
+    const table = document.getElementById('table');
+
+    table.addEventListener('pointerdown', e => {
+      playSound();
+
+      const rect = table.getBoundingClientRect();
+      const circle = document.createElement('div');
+      circle.className = 'circle';
+      circle.style.left = (e.clientX - rect.left) + 'px';
+      circle.style.top = (e.clientY - rect.top) + 'px';
+
+      table.appendChild(circle);
+      setTimeout(() => circle.remove(), 3000);
+    });
+  </script>
+</body>
+</html>
