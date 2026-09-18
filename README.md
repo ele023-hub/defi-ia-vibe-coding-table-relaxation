@@ -1,0 +1,1 @@
+# defi-ia-vibe-coding-table-relaxation
